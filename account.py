@@ -1,5 +1,4 @@
 class Account:
-    
 
     def __init__(self, number, holder, balance, limit):
         print("Building object ... {}".format(self))
@@ -14,8 +13,15 @@ class Account:
     def deposit(self, value):
         self.__balance += value
 
+    def __can_witdraw(self, amount_to_withdraw):
+        amount_available_to_withdraw = self.__balance + self.__limit
+        return amount_to_withdraw <= amount_available_to_withdraw
+
     def withdraw(self, value):
-        self.__balance -= value
+        if(self.__can_witdraw(value)):
+            self.__balance -= value
+        else:
+            print("{} value exceeded limit.".format(value))
 
     def transfer(self, value, destiny):
         self.withdraw(value)
@@ -25,11 +31,17 @@ class Account:
     def balance(self):
         return self.__balance
 
-    def get_holder(self):
+    @property
+    def holder(self):
         return self.__holder
+    
+    @property
+    def number(self):
+        return self.__number
 
-    def get_number(self):
-        return self.__number 
+    @property
+    def limit(self):
+        return self.__limit
 
     @limit.setter
     def limit(self, limit):
